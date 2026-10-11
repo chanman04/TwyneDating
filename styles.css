@@ -184,7 +184,7 @@ details .answer p:last-child { margin-bottom: 0; }
   display: grid; place-items: center; font-weight: 800; font-size: .85rem; margin-top: 2px;
 }
 .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); box-shadow: var(--shadow); padding: 12px; overflow: hidden; }
-.form-card iframe { width: 100%; height: 1500px; border: 0; border-radius: 20px; display: block; }
+.form-card iframe { width: 100%; height: 1330px; border: 0; border-radius: 20px; display: block; }
 .form-placeholder { padding: 64px 32px; text-align: center; color: var(--muted); }
 .form-placeholder h3 { color: var(--text); }
 
