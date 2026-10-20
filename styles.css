@@ -263,3 +263,7 @@ details .answer p:last-child { margin-bottom: 0; }
 .form-success { text-align: center; padding: 24px 8px; }
 .form-success h3 { margin: 0 0 .4em; }
 .form-success p { margin: 0; color: var(--muted); }
+
+.deletion-note { background: var(--sand-soft); border: 1px solid var(--sand); border-radius: 18px; padding: 4px 18px; margin-top: 16px; }
+.deletion-note[hidden], [data-subject-row][hidden] { display: none; }
+.deletion-note p { margin: .8em 0; color: var(--text); font-size: .95rem; }

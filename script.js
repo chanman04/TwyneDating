@@ -48,6 +48,7 @@
   if (!forms.length) return;
 
   var ERRORS = {
+    invalid_category: 'Please choose what you need help with.',
     invalid_email: 'Please enter a valid email address.',
     invalid_subject: 'Please add a short subject.',
     invalid_body: 'Please tell us a little more.',
@@ -58,6 +59,22 @@
     var msg = form.querySelector('.form-msg');
     var btn = form.querySelector('button[type="submit"]');
     var label = btn.textContent;
+    var note = form.querySelector('.deletion-note');
+    var subjectRow = form.querySelector('[data-subject-row]');
+    var emailLabel = form.querySelector('[data-label-email]');
+    var messageLabel = form.querySelector('[data-label-message]');
+
+    function sync() {
+      var del = form.category.value === 'deletion';
+      note.hidden = !del;
+      subjectRow.hidden = del;
+      emailLabel.textContent = del ? 'Email address on your Twyne account' : 'Your email address';
+      messageLabel.innerHTML = del ? 'Anything we should know? <span class="opt">(optional)</span>' : 'How can we help?';
+      label = del ? 'Request account deletion' : 'Send message';
+      btn.textContent = label;
+    }
+    form.category.addEventListener('change', sync);
+    sync();
 
     function fail(text) {
       msg.textContent = text;
@@ -68,16 +85,17 @@
       e.preventDefault();
       msg.hidden = true;
       var email = form.email.value.trim();
-      var isDeletion = form.getAttribute('data-category') === 'deletion';
+      var isDeletion = form.category.value === 'deletion';
       var subject = isDeletion ? 'Account deletion request' : form.subject.value.trim();
       var body;
       if (isDeletion) {
-        var note = form.note.value.trim();
+        var note = form.message.value.trim();
         body = 'Please delete my Twyne account and all associated data.' +
           (note ? '\n\nNotes: ' + note : '') + '\n\nI understand deletion is permanent.';
       } else {
         body = form.message.value.trim();
       }
+      if (!form.category.value) { fail(ERRORS.invalid_category); form.category.focus(); return; }
       if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { fail(ERRORS.invalid_email); form.email.focus(); return; }
       if (!subject) { fail(ERRORS.invalid_subject); form.subject.focus(); return; }
       if (!body) { fail(ERRORS.invalid_body); form.message.focus(); return; }
@@ -90,7 +108,7 @@
         body: JSON.stringify({
           p_email: email,
           p_name: form.name.value.trim(),
-          p_category: isDeletion ? 'deletion' : form.category.value,
+          p_category: form.category.value,
           p_subject: subject,
           p_body: body,
           p_website: form.website.value
@@ -112,6 +130,27 @@
         btn.textContent = label;
         fail(ERRORS[err.message] || 'Sorry, something went wrong sending that. Please try again, or email contact@twyne-dating.com.');
       });
+    });
+  });
+})();
+
+// Support: links that preselect a topic (e.g. ?topic=deletion)
+(function () {
+  var sel = document.getElementById('cf-category');
+  if (!sel) return;
+  function pick(topic) {
+    if (![].some.call(sel.options, function (o) { return o.value === topic; })) return;
+    sel.value = topic;
+    sel.dispatchEvent(new Event('change'));
+  }
+  var m = /[?&]topic=([a-z]+)/.exec(location.search);
+  if (m) pick(m[1]);
+  document.querySelectorAll('[data-topic]').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      pick(a.getAttribute('data-topic'));
+      document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+      sel.focus({ preventScroll: true });
     });
   });
 })();
