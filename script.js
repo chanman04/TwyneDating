@@ -39,3 +39,30 @@
   mount.innerHTML = '';
   mount.appendChild(f);
 })();
+
+// Support: build a pre-filled account-deletion email
+(function () {
+  var form = document.getElementById('delete-form');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = form.email.value.trim();
+    var msg = document.getElementById('df-msg');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      msg.textContent = 'Please enter the email address on your Twyne account.';
+      msg.hidden = false;
+      form.email.focus();
+      return;
+    }
+    msg.hidden = true;
+    var name = form.name.value.trim();
+    var note = form.note.value.trim();
+    var body = 'Please delete my Twyne account and all associated data.\n\n' +
+      'Account email: ' + email + '\n' +
+      (name ? 'Name on profile: ' + name + '\n' : '') +
+      (note ? '\nNotes: ' + note + '\n' : '') +
+      '\nI understand deletion is permanent.';
+    window.location.href = 'mailto:hello@oddpearstudio.com?subject=' +
+      encodeURIComponent('Twyne account deletion request') + '&body=' + encodeURIComponent(body);
+  });
+})();

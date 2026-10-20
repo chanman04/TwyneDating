@@ -231,3 +231,28 @@ details .answer p:last-child { margin-bottom: 0; }
   .store { flex: 1 1 100%; }
   .footer nav a { margin: 0 18px 0 0; }
 }
+
+/* ---------- Support ---------- */
+.support-wrap { max-width: 800px; margin-inline: auto; padding-bottom: 96px; }
+.support-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 8px; }
+.support-card { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); box-shadow: var(--shadow); padding: 22px 24px; text-decoration: none; color: inherit; transition: border-color .2s, transform .2s; }
+.support-card:hover { border-color: var(--primary); transform: translateY(-2px); }
+.support-card h2 { font-size: 1.2rem; margin: 0 0 .4em; }
+.support-card p { margin: 0; color: var(--muted); font-size: .96rem; }
+.delete-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); box-shadow: var(--shadow); padding: 28px; }
+.delete-box h3 { margin-top: 0; }
+.delete-box h3:not(:first-child) { margin-top: 1.8em; }
+.delete-box p, .delete-box li { color: var(--muted); }
+.support-form label { display: block; font-weight: 600; margin: 16px 0 6px; }
+.support-form .opt { color: var(--muted); font-weight: 400; }
+.support-form input, .support-form textarea { width: 100%; font: inherit; padding: .7em .9em; border: 1.5px solid var(--border); border-radius: 14px; background: var(--bg); color: var(--text); }
+.support-form input:focus-visible, .support-form textarea:focus-visible { outline: 3px solid var(--primary); outline-offset: 1px; }
+.support-form .btn { margin-top: 18px; border: 0; cursor: pointer; font: inherit; font-weight: 700; }
+.form-msg { color: #B3261E; font-weight: 600; margin: 12px 0 0; }
+.form-note { font-size: .88rem; margin-top: 14px; }
+.support-legal { text-align: center; color: var(--muted); margin-top: 40px; }
+
+/* ---------- Legal ---------- */
+.legal { max-width: 800px; padding-bottom: 96px; }
+.legal h2 { font-size: 1.4rem; margin: 2em 0 .5em; }
+.legal li { margin-bottom: .45em; }
