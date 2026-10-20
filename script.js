@@ -62,7 +62,7 @@
       (name ? 'Name on profile: ' + name + '\n' : '') +
       (note ? '\nNotes: ' + note + '\n' : '') +
       '\nI understand deletion is permanent.';
-    window.location.href = 'mailto:hello@oddpearstudio.com?subject=' +
+    window.location.href = 'mailto:contact@twyne-dating.com?subject=' +
       encodeURIComponent('Twyne account deletion request') + '&body=' + encodeURIComponent(body);
   });
 })();
