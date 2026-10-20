@@ -40,29 +40,78 @@
   mount.appendChild(f);
 })();
 
-// Support: build a pre-filled account-deletion email
+// Support forms: file a request straight into the Twyne support queue
 (function () {
-  var form = document.getElementById('delete-form');
-  if (!form) return;
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var email = form.email.value.trim();
-    var msg = document.getElementById('df-msg');
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
-      msg.textContent = 'Please enter the email address on your Twyne account.';
+  var API = 'https://pvvvphzlihqqwfxdnedb.supabase.co/rest/v1/rpc/submit_web_support_request';
+  var KEY = 'sb_publishable_yVs9A_3YQHI15ubThwEA9g_3GjAqNe_';
+  var forms = document.querySelectorAll('form[data-support-form]');
+  if (!forms.length) return;
+
+  var ERRORS = {
+    invalid_email: 'Please enter a valid email address.',
+    invalid_subject: 'Please add a short subject.',
+    invalid_body: 'Please tell us a little more.',
+    rate_limited: 'You’ve sent a few requests already. Please wait a while and try again, or email contact@twyne-dating.com.'
+  };
+
+  forms.forEach(function (form) {
+    var msg = form.querySelector('.form-msg');
+    var btn = form.querySelector('button[type="submit"]');
+    var label = btn.textContent;
+
+    function fail(text) {
+      msg.textContent = text;
       msg.hidden = false;
-      form.email.focus();
-      return;
     }
-    msg.hidden = true;
-    var name = form.name.value.trim();
-    var note = form.note.value.trim();
-    var body = 'Please delete my Twyne account and all associated data.\n\n' +
-      'Account email: ' + email + '\n' +
-      (name ? 'Name on profile: ' + name + '\n' : '') +
-      (note ? '\nNotes: ' + note + '\n' : '') +
-      '\nI understand deletion is permanent.';
-    window.location.href = 'mailto:contact@twyne-dating.com?subject=' +
-      encodeURIComponent('Twyne account deletion request') + '&body=' + encodeURIComponent(body);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      msg.hidden = true;
+      var email = form.email.value.trim();
+      var isDeletion = form.getAttribute('data-category') === 'deletion';
+      var subject = isDeletion ? 'Account deletion request' : form.subject.value.trim();
+      var body;
+      if (isDeletion) {
+        var note = form.note.value.trim();
+        body = 'Please delete my Twyne account and all associated data.' +
+          (note ? '\n\nNotes: ' + note : '') + '\n\nI understand deletion is permanent.';
+      } else {
+        body = form.message.value.trim();
+      }
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { fail(ERRORS.invalid_email); form.email.focus(); return; }
+      if (!subject) { fail(ERRORS.invalid_subject); form.subject.focus(); return; }
+      if (!body) { fail(ERRORS.invalid_body); form.message.focus(); return; }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', apikey: KEY },
+        body: JSON.stringify({
+          p_email: email,
+          p_name: form.name.value.trim(),
+          p_category: isDeletion ? 'deletion' : form.category.value,
+          p_subject: subject,
+          p_body: body,
+          p_website: form.website.value
+        })
+      }).then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (!res.ok) { throw new Error((data && data.message) || 'error'); }
+          var ok = document.createElement('div');
+          ok.className = 'form-success';
+          ok.setAttribute('role', 'status');
+          ok.innerHTML = '<h3>Thanks, we’ve got it.</h3><p>' +
+            (isDeletion
+              ? 'We’ll email you at the address you gave to confirm your deletion request.'
+              : 'We’ll reply to the email address you gave, usually within 2 business days.') + '</p>';
+          form.replaceWith(ok);
+        });
+      }).catch(function (err) {
+        btn.disabled = false;
+        btn.textContent = label;
+        fail(ERRORS[err.message] || 'Sorry, something went wrong sending that. Please try again, or email contact@twyne-dating.com.');
+      });
+    });
   });
 })();

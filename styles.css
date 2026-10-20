@@ -256,3 +256,10 @@ details .answer p:last-child { margin-bottom: 0; }
 .legal { max-width: 800px; padding-bottom: 96px; }
 .legal h2 { font-size: 1.4rem; margin: 2em 0 .5em; }
 .legal li { margin-bottom: .45em; }
+
+.support-form select { width: 100%; font: inherit; padding: .7em .9em; border: 1.5px solid var(--border); border-radius: 14px; background: var(--bg); color: var(--text); }
+.support-form select:focus-visible { outline: 3px solid var(--primary); outline-offset: 1px; }
+.support-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-success { text-align: center; padding: 24px 8px; }
+.form-success h3 { margin: 0 0 .4em; }
+.form-success p { margin: 0; color: var(--muted); }

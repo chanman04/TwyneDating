@@ -36,9 +36,9 @@
 
   <div class="wrap support-wrap">
     <div class="support-cards">
-      <a class="support-card" href="mailto:contact@twyne-dating.com?subject=Twyne%20support">
-        <h2>Email support</h2>
-        <p>Reach the team at <strong>contact@twyne-dating.com</strong>. We usually reply within 2 business days.</p>
+      <a class="support-card" href="#contact">
+        <h2>Contact support</h2>
+        <p>Send us a message and we’ll reply by email, usually within 2 business days.</p>
       </a>
       <a class="support-card" href="#delete">
         <h2>Delete my account</h2>
@@ -72,6 +72,33 @@
       <div class="answer"><p>Email us from your account address with what you’d like. See our <a href="privacy">Privacy Policy</a> for your rights and how we handle data.</p></div>
     </details>
 
+    <h2 class="faq-group" id="contact">Send us a message</h2>
+    <div class="delete-box">
+      <form id="contact-form" class="support-form" data-support-form novalidate>
+        <label for="cf-email">Your email address</label>
+        <input id="cf-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+        <label for="cf-name">Your name <span class="opt">(optional)</span></label>
+        <input id="cf-name" name="name" type="text" autocomplete="name">
+        <label for="cf-category">What is this about?</label>
+        <select id="cf-category" name="category">
+          <option value="account">Account or sign-in</option>
+          <option value="billing">Billing or membership</option>
+          <option value="bug">Something isn’t working</option>
+          <option value="safety">Safety or reporting someone</option>
+          <option value="feedback">Feedback</option>
+          <option value="other" selected>Something else</option>
+        </select>
+        <label for="cf-subject">Subject</label>
+        <input id="cf-subject" name="subject" type="text" maxlength="140" required>
+        <label for="cf-message">How can we help?</label>
+        <textarea id="cf-message" name="message" rows="6" maxlength="4000" required></textarea>
+        <div class="hp" aria-hidden="true"><label>Website <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+        <p class="form-msg" role="alert" hidden></p>
+        <button class="btn" type="submit">Send message</button>
+        <p class="form-note">We’ll reply to the email address above. You can also email <a href="mailto:contact@twyne-dating.com">contact@twyne-dating.com</a>.</p>
+      </form>
+    </div>
+
     <h2 class="faq-group" id="delete">Delete your account</h2>
     <div class="delete-box">
       <h3>Option 1: delete it in the app (fastest)</h3>
@@ -85,16 +112,17 @@
 
       <h3>Option 2: request deletion here</h3>
       <p>If you can’t open the app, or no longer have it installed, send a request and we’ll process it for you. To protect you, we confirm the request by replying to the <strong>email address on the account</strong> before deleting. Once confirmed, we process it for you, and the same deletion and retention rules above apply.</p>
-      <form id="delete-form" class="support-form" novalidate>
+      <form id="delete-form" class="support-form" data-support-form data-category="deletion" novalidate>
         <label for="df-email">Email address on your Twyne account</label>
         <input id="df-email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
         <label for="df-name">Name on your profile <span class="opt">(optional)</span></label>
         <input id="df-name" name="name" type="text" autocomplete="name">
         <label for="df-note">Anything we should know? <span class="opt">(optional)</span></label>
         <textarea id="df-note" name="note" rows="3"></textarea>
-        <p class="form-msg" id="df-msg" role="alert" hidden></p>
+        <div class="hp" aria-hidden="true"><label>Website <input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+        <p class="form-msg" role="alert" hidden></p>
         <button class="btn" type="submit">Request account deletion</button>
-        <p class="form-note">This opens your email app with a pre-filled message to contact@twyne-dating.com. Press send there to submit. Prefer to write it yourself? Email <a href="mailto:contact@twyne-dating.com?subject=Twyne%20account%20deletion%20request">contact@twyne-dating.com</a> with the subject “Twyne account deletion request”.</p>
+        <p class="form-note">Your request goes straight to our support team. We’ll reply to the email address above to confirm it’s you before deleting anything. If the form doesn’t work, email <a href="mailto:contact@twyne-dating.com?subject=Twyne%20account%20deletion%20request">contact@twyne-dating.com</a> with the subject “Twyne account deletion request”.</p>
       </form>
     </div>
 
